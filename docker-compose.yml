@@ -1,0 +1,59 @@
+name: calculator
+
+services:
+  calculator-api-1:
+    image: abumaniyar/calculator-api:v1
+    environment:
+      SERVER_PORT: 8080
+      SPRING_PROFILES_ACTIVE: default
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - calculator-net
+
+  calculator-api-2:
+    image: abumaniyar/calculator-api:v1
+    environment:
+      SERVER_PORT: 8080
+      SPRING_PROFILES_ACTIVE: default
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - calculator-net
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8083:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      calculator-api-1:
+        condition: service_healthy
+      calculator-api-2:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - calculator-net
+
+networks:
+  calculator-net:
+    driver: bridge
