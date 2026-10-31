@@ -124,3 +124,13 @@ git add .
 git commit -m "Add CI/CD setup and deployment config"
 git push origin <branch-name>
 ```
+## Docker Hub
+
+The Docker image for this project is available here:
+
+[Calculator API – Docker Hub](https://hub.docker.com/r/abumaniyar/calculator-api)
+
+Pull the image using:
+
+```bash
+docker pull abumaniyar/calculator-api:v1
