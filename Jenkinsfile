@@ -36,6 +36,23 @@ pipeline {
                 sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    sh '''
+                        echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                        docker tag ${IMAGE_NAME}:${IMAGE_TAG} abumaniyar/${IMAGE_NAME}:${IMAGE_TAG}
+                        docker push abumaniyar/${IMAGE_NAME}:${IMAGE_TAG}
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
     post {
@@ -46,4 +63,4 @@ pipeline {
             echo 'Pipeline failed. Check the stage logs.'
         }
     }
-}
+} 
