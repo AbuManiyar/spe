@@ -1,6 +1,6 @@
 services:
   calculator-api-1:
-    image: calculator-api:v1
+    image: abumaniyar/calculator-api:v1
     container_name: calculator-api-1
     environment:
       SERVER_PORT: 8080
@@ -20,7 +20,7 @@ services:
       - calculator-net
 
   calculator-api-2:
-    image: calculator-api:v1
+    image: abumaniyar/calculator-api:v1
     container_name: calculator-api-2
     environment:
       SERVER_PORT: 8080
