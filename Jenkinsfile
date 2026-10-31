@@ -83,10 +83,31 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build completed successfully.
+
+                    Job: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    URL: ${env.BUILD_URL}
+                """,
+                to: "Abutalha.Maniyar@iiitb.ac.in"
+            )
         }
+
         failure {
-            echo 'Pipeline failed. Check the stage logs.'
+            emailext(
+                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build failed.
+
+                    Job: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    Console: ${env.BUILD_URL}console
+                """,
+                to: "Abutalha.Maniyar@iiitb.ac.in"
+            )
         }
     }
 } 
