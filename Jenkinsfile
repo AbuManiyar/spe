@@ -53,6 +53,31 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker compose pull
+                    docker compose up -d
+                '''
+
+                sh '''
+                    echo "Waiting for the API to become healthy..."
+                    for i in $(seq 1 30); do
+                        if curl -fsS http://localhost:8083/actuator/health; then
+                            echo "Deployment health check passed!"
+                            exit 0
+                        fi
+                        sleep 5
+                    done
+
+                    echo "API did not become healthy in time."
+                    docker compose ps
+                    docker compose logs --tail=100
+                    exit 1
+                '''
+            }
+        }
     }
 
     post {
