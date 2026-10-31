@@ -13,7 +13,7 @@ The application is packaged as a Docker image and deployed as a small Compose st
 
 ## Tech Stack
 
-- Java 17 / Spring Boot
+- Java 21 / Spring Boot
 - Maven
 - Jenkins
 - Docker
@@ -31,7 +31,6 @@ The application is packaged as a Docker image and deployed as a small Compose st
 ├── pom.xml
 ├── mvnw
 ├── src/
-├── target/
 └── README.md
 ```
 
