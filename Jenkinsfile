@@ -57,8 +57,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    docker compose pull
-                    docker compose up -d
+                    docker compose -p calculator down --remove-orphans || true
+                    docker compose -p calculator pull
+                    docker compose -p calculator up -d --remove-orphans
                 '''
 
                 sh '''
@@ -72,8 +73,8 @@ pipeline {
                     done
 
                     echo "API did not become healthy in time."
-                    docker compose ps
-                    docker compose logs --tail=100
+                    docker compose -p calculator ps
+                    docker compose -p calculator logs --tail=100
                     exit 1
                 '''
             }
