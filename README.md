@@ -96,7 +96,7 @@ The deploy stage:
 - waits for the API health endpoint 
 - prints Compose status and logs on failure
 
-## Notes
+## Notes 
 
 - Fixed `container_name` entries were removed to avoid naming conflicts.
 - Compose manages container naming automatically when using the consistent project name `calculator`.
