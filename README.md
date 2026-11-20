@@ -93,7 +93,7 @@ The deploy stage:
 - uses `docker compose -p calculator`
 - pulls the latest image
 - redeploys the stack
-- waits for the API health endpoint
+- waits for the API health endpoint 
 - prints Compose status and logs on failure
 
 ## Notes
