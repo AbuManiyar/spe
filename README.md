@@ -108,7 +108,7 @@ The deploy stage:
 
 ```bash
 # View running services
-docker compose -p calculator ps
+docker compose -p calculator ps 
 
 # View logs
 docker compose -p calculator logs --tail=100
